@@ -1,0 +1,87 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.table {
+  margin: 15px;
+  border: 1px solid #404040;
+  width: 800px;
+  position: relative;
+  user-select: none
+}
+
+.tb {
+  height: 250px;
+  position: relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.th {
+  margin-right: 12px;
+  position: relative;
+  color: #3eabd3;
+  text-transform: capitalize;
+}
+
+.th__col {
+  display: flex;
+  justify-content: center;
+}
+
+.th__col__swap {
+  padding: 5px;
+  flex: 1 1 auto;
+  cursor: move;
+}
+
+.tb__row, .th {
+  display: flex;
+  flex-direction: row;
+}
+
+.tb__col, .th__col {
+  flex-basis: 200px;
+  box-sizing: border-box;
+  border-right: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+}
+
+.tb__col {
+  padding: 5px 10px;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+  background: #f4f4f4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cecece;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aeaeae;
+}

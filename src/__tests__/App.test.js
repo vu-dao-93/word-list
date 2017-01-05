@@ -1,11 +1,10 @@
-jest.mock('./apiCall');
+jest.mock('../services/apiCall');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { mount } from 'enzyme';
-import apiCall from './__mocks__/apiCall';
 
-import App from './App';
+import App from '../components/App';
 
 describe('App', () => {
   it('renders without crashing', () => {

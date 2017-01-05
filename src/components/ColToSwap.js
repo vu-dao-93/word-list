@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './ColToSwap.css'
+import '../styles/ColToSwap.scss'
 
 class ColToSwap extends Component {
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Waypoint from 'react-waypoint'
-import logo from './logo.svg';
+import logo from '../logo.svg';
 import 'font-awesome/css/font-awesome.min.css';
-import './App.css';
-import apiCall from './apiCall'
+import '../styles/App.scss';
+import apiCall from '../services/apiCall'
 
 import TBody from './TBody'
 import THead from './THead'
@@ -14,8 +14,8 @@ class App extends Component {
   constructor() {
     super()
     this.state = { rows: [], columns: columns, loading: false, lastId: '' }
-    this._sortRows = this._sortRows.bind(this)
-    this._updateCol = this._updateCol.bind(this)
+    this._updateRows = this._updateRows.bind(this)
+    this._updateCols = this._updateCols.bind(this)
     this._renderWaypoint = this._renderWaypoint.bind(this)
     this._getMoreWord = this._getMoreWord.bind(this)
   }
@@ -38,7 +38,7 @@ class App extends Component {
         </div>
         <div className="App-intro">
           <div className="table">
-            <THead columns={this.state.columns} updateCol={this._updateCol} sortRows={this._sortRows}/>
+            <THead columns={this.state.columns} updateCols={this._updateCols} updateRows={this._updateRows}/>
             <div className="tb">
               <TBody rows={this.state.rows} columns={this.state.columns}/>
               {this._renderWaypoint()}
@@ -49,7 +49,7 @@ class App extends Component {
     );
   }
 
-  _sortRows(key) {
+  _updateRows(key) {
     this.setState({
       rows: this.state.rows.sort((a, b) => {
         const sortedArray = [ a[key], b[key] ].sort()
@@ -60,7 +60,7 @@ class App extends Component {
     })
   }
 
-  _updateCol(newCol) {
+  _updateCols(newCol) {
     this.setState({columns: newCol})
   }
 

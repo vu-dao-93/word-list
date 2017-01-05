@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './SortButton.css'
+import '../styles/SortButton.scss'
 
 class SortButton extends Component {
   constructor(props) {

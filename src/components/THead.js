@@ -29,7 +29,7 @@ class THead extends Component {
   _sortItems(key) {
     return () => {
       this.setState({sortKey: key})
-      this.props.sortRows(key)
+      this.props.updateRows(key)
     }
   }
 
@@ -55,7 +55,7 @@ class THead extends Component {
     // Remove column at old index and add it at the new index
     newCol.splice(oldIndex, 1)
     newCol.splice(newIndex, 0, this.state.colToSwap.text)
-    this.props.updateCol(newCol)
+    this.props.updateCols(newCol)
     this.setState({colToSwap: null})
   }
 

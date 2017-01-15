@@ -23,12 +23,26 @@
   to { transform: rotate(360deg); }
 }
 
+$border: 1px solid #404040;
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
 .table {
   margin: 15px;
-  border: 1px solid #404040;
+  border: $border;
   width: 800px;
   position: relative;
   user-select: none
+}
+
+.cell {
+  flex-basis: 200px;
+  box-sizing: border-box;
+  border-right: $border;
+  border-bottom: $border;
 }
 
 .tb {
@@ -36,52 +50,43 @@
   position: relative;
   overflow-y: scroll;
   overflow-x: hidden;
+  &__row {
+    @extend .flex-row;
+  }
+  &__col {
+    @extend .cell;
+    padding: 5px 10px;
+  }
 }
 
 .th {
+  @extend .flex-row;
   margin-right: 12px;
   position: relative;
   color: #3eabd3;
   text-transform: capitalize;
-}
 
-.th__col {
-  display: flex;
-  justify-content: center;
-}
+  &__col {
+    display: flex;
+    justify-content: center;
+    @extend .cell;
 
-.th__col__swap {
-  padding: 5px;
-  flex: 1 1 auto;
-  cursor: move;
-}
-
-.tb__row, .th {
-  display: flex;
-  flex-direction: row;
-}
-
-.tb__col, .th__col {
-  flex-basis: 200px;
-  box-sizing: border-box;
-  border-right: 1px solid #404040;
-  border-bottom: 1px solid #404040;
-}
-
-.tb__col {
-  padding: 5px 10px;
+    &__swap {
+      padding: 5px;
+      flex: 1 1 auto;
+      cursor: move;
+    }
+  }
 }
 
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
   background: #f4f4f4;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #cecece;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #aeaeae;
+  &-thumb {
+    background: #cecece;
+    &:hover {
+      background: #aeaeae;
+    }
+  }
 }

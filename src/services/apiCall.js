@@ -1,12 +1,10 @@
 import 'whatwg-fetch'
 
-const baseUrl = 'http://localhost:8000'
+const URL = 'http://localhost:8000'
 const apiCall = {
     getWordList: (length, start) => {
-        let url = `${baseUrl}/word-list?length=${length}`
-        if (start) {
-            url = `${url}&start=${start}`
-        }
+        let url = `${URL}/api/words?length=${length}`
+        url += start? `&start=${start}`: ''
         return fetch(url).then((response) => {
             if (response.status >= 200 && response.status < 300) {
                 return response

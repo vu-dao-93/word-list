@@ -23,7 +23,7 @@ class App extends Component {
   componentDidMount() {
     apiCall.getWordList(10).then((res) => {
       this.setState({
-        lastId: res[res.length-1].id,
+        lastId: res[res.length-1]._id,
         rows: res,
       })
     })
@@ -80,7 +80,7 @@ class App extends Component {
       apiCall.getWordList(5, this.state.lastId).then((list) => {
         if (!list.length) return; // Stop function from calling after all items have been retrieved
         rows = rows.concat(list)
-        this.setState({rows: rows, loading: false, lastId: rows[rows.length-1].id})
+        this.setState({rows: rows, loading: false, lastId: rows[rows.length-1]._id})
       })
     }
   }

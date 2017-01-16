@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import SortButton from './SortButton'
 import ColToSwap from './ColToSwap'
+import {swapCol} from '../actions/colActions'
 
 class THead extends Component {
   constructor(props) {
@@ -15,7 +17,7 @@ class THead extends Component {
   render() {
     return (
       <div className="th">
-      {this._renderColToSwap()}
+      {(this.state.colToSwap) && <ColToSwap col={this.state.colToSwap} />}
       {this.props.columns.map((col, cI) => (
         <div className="th__col" key={cI}>
           <div className="th__col__swap" onMouseDown={this._startColSwap} onMouseUp={this._swapCol}>{col}</div>
@@ -46,26 +48,14 @@ class THead extends Component {
 
   _swapCol(e) {
     e.preventDefault()
-    let newCol = this.props.columns
-
-    // Get old and new index of the column to swap
-    const oldIndex = newCol.indexOf(this.state.colToSwap.text)
-    const newIndex = newCol.indexOf(e.target.innerHTML)
-
-    // Remove column at old index and add it at the new index
-    newCol.splice(oldIndex, 1)
-    newCol.splice(newIndex, 0, this.state.colToSwap.text)
-    this.props.updateCols(newCol)
+    this.props.dispatch(swapCol(this.state.colToSwap.text, e.target.innerHTML))
     this.setState({colToSwap: null})
   }
 
-  _renderColToSwap() {
-    if (this.state.colToSwap) {
-      return (
-        <ColToSwap col={this.state.colToSwap} />
-      )
-    }
-  }
 }
 
-export default THead
+const mapStateToProps = store => ({
+  columns: store.colReducer,
+})
+
+export default connect(mapStateToProps)(THead)

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import Waypoint from 'react-waypoint'
-import logo from '../logo.svg';
 import 'font-awesome/css/font-awesome.min.css';
-import '../styles/App.scss';
-import apiCall from '../services/apiCall'
+import {connect} from 'react-redux'
 
+import logo from '../logo.svg';
+import '../styles/App.scss';
+import {getWordList, sortRows} from '../actions/rowActions'
 import TBody from './TBody'
 import THead from './THead'
 
@@ -15,18 +16,11 @@ class App extends Component {
     super()
     this.state = { rows: [], columns: columns, loading: false, lastId: '' }
     this._updateRows = this._updateRows.bind(this)
-    this._updateCols = this._updateCols.bind(this)
-    this._renderWaypoint = this._renderWaypoint.bind(this)
     this._getMoreWord = this._getMoreWord.bind(this)
   }
 
-  componentDidMount() {
-    apiCall.getWordList(10).then((res) => {
-      this.setState({
-        lastId: res[res.length-1]._id,
-        rows: res,
-      })
-    })
+  componentWillMount() {
+    this.props.dispatch(getWordList(10))
   }
 
   render() {
@@ -38,10 +32,10 @@ class App extends Component {
         </div>
         <div className="App-intro">
           <div className="table">
-            <THead columns={this.state.columns} updateCols={this._updateCols} updateRows={this._updateRows}/>
+            <THead columns={this.props.columns} updateRows={this._updateRows}/>
             <div className="tb">
-              <TBody rows={this.state.rows} columns={this.state.columns}/>
-              {this._renderWaypoint()}
+              <TBody rows={this.props.rowReducer.rows} columns={this.props.columns}/>
+              {(!this.props.rowReducer.loading) && <Waypoint onEnter={this._getMoreWord}/>}
             </div>
           </div>
         </div>
@@ -50,40 +44,20 @@ class App extends Component {
   }
 
   _updateRows(key) {
-    this.setState({
-      rows: this.state.rows.sort((a, b) => {
-        const sortedArray = [ a[key], b[key] ].sort()
-        const aKeyIndex = sortedArray.indexOf(a[key])
-        const bKeyIndex = sortedArray.indexOf(b[key])
-        return aKeyIndex - bKeyIndex
-      })
-    })
-  }
-
-  _updateCols(newCol) {
-    this.setState({columns: newCol})
-  }
-
-  _renderWaypoint() {
-    if (!this.state.loading) {
-      return (
-        <Waypoint onEnter={this._getMoreWord}/>
-      )
-    }
+    this.props.dispatch(sortRows(key))
   }
 
   _getMoreWord() {
-    let rows = this.state.rows;
-
-    if (this.state.lastId.length) { // Stop function from calling when component just mount
-      this.setState({ loading: true });
-      apiCall.getWordList(5, this.state.lastId).then((list) => {
-        if (!list.length) return; // Stop function from calling after all items have been retrieved
-        rows = rows.concat(list)
-        this.setState({rows: rows, loading: false, lastId: rows[rows.length-1]._id})
-      })
+    const currLastId = this.props.rowReducer.lastId
+    if (currLastId.length) {
+      this.props.dispatch(getWordList(5, this.props.rowReducer.lastId))
     }
   }
 }
 
-export default App;
+const mapStateToProps = store => ({
+  rowReducer: store.rowReducer,
+  columns: store.colReducer,
+})
+
+export default connect(mapStateToProps)(App);

@@ -1,7 +1,7 @@
 jest.mock('../services/apiCall')
 
 import React from 'react'
-import { shallow, mount, render } from 'enzyme'
+import { mount } from 'enzyme'
 import apiCall from '../services/apiCall'
 
 import THead from '../components/THead'

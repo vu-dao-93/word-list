@@ -1,7 +1,7 @@
 import React from 'react'
-import { shallow, mount, render } from 'enzyme'
+import { shallow } from 'enzyme'
 
-import TBody from '../components/TBody'
+import TBody from '../../components/TBody'
 
 describe('Test suite for TBody component', () => {
   let wrapper = shallow(<TBody rows={ [{word: 'Hello'}] } columns={ ['word'] }/>)

@@ -11,7 +11,7 @@ import THead from './THead'
 
 const columns = ['word', 'points', 'pickRate', 'successRate']
 
-class App extends Component {
+export class App extends Component {
   constructor() {
     super()
     this.state = { rows: [], columns: columns, loading: false, lastId: '' }

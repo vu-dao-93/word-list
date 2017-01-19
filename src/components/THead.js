@@ -4,8 +4,9 @@ import { connect } from 'react-redux'
 import SortButton from './SortButton'
 import ColToSwap from './ColToSwap'
 import {swapCol} from '../actions/colActions'
+import {sortRows} from '../actions/rowActions'
 
-class THead extends Component {
+export class THead extends Component {
   constructor(props) {
     super(props)
     this.state = {colToSwap: null, sortKey: ''}
@@ -31,7 +32,7 @@ class THead extends Component {
   _sortItems(key) {
     return () => {
       this.setState({sortKey: key})
-      this.props.updateRows(key)
+      this.props.dispatch(sortRows(key))
     }
   }
 
@@ -44,6 +45,7 @@ class THead extends Component {
         top: e.target.offsetTop
       }
     })
+    console.log(this.state);
   }
 
   _swapCol(e) {

@@ -5,17 +5,13 @@ import {connect} from 'react-redux'
 
 import logo from '../logo.svg';
 import '../styles/App.scss';
-import {getWordList, sortRows} from '../actions/rowActions'
+import {getWordList} from '../actions/rowActions'
 import TBody from './TBody'
 import THead from './THead'
-
-const columns = ['word', 'points', 'pickRate', 'successRate']
 
 export class App extends Component {
   constructor() {
     super()
-    this.state = { rows: [], columns: columns, loading: false, lastId: '' }
-    this._updateRows = this._updateRows.bind(this)
     this._getMoreWord = this._getMoreWord.bind(this)
   }
 
@@ -32,7 +28,7 @@ export class App extends Component {
         </div>
         <div className="App-intro">
           <div className="table">
-            <THead columns={this.props.columns} updateRows={this._updateRows}/>
+            <THead columns={this.props.columns}/>
             <div className="tb">
               <TBody rows={this.props.rowReducer.rows} columns={this.props.columns}/>
               {(!this.props.rowReducer.loading) && <Waypoint onEnter={this._getMoreWord}/>}
@@ -41,10 +37,6 @@ export class App extends Component {
         </div>
       </div>
     );
-  }
-
-  _updateRows(key) {
-    this.props.dispatch(sortRows(key))
   }
 
   _getMoreWord() {

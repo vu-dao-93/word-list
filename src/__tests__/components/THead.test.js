@@ -1,12 +1,13 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import connectComponent from '../../utils/testHelpers';
 
-import THead from '../../components/THead'
+import {THead} from '../../components/THead'
 
 describe('Test suite for THead component', () => {
-  let colReducer = ['word', 'points', 'pickRate', 'successRate']
-  let wrapper = mount(connectComponent(<THead/>, {colReducer}));
+  const colReducer = ['word', 'points', 'pickRate', 'successRate']
+  const callSwapCol = jest.fn()
+  const callSortRows = jest.fn()
+  let wrapper = mount(<THead columns={colReducer} callSortRows={callSortRows} callSwapCol={callSwapCol} />);
   it('THead component should exist', () => {
     expect(wrapper).toBeDefined()
   })
@@ -20,10 +21,9 @@ describe('Test suite for THead component', () => {
     let col1 = wrapper.find('.th__col__swap').at(0)
     let col2 = wrapper.find('.th__col__swap').at(1)
     col1.simulate('mousedown')
-    console.log(wrapper.state());
     expect(wrapper.state().colToSwap.text).toEqual(col1.text())
     col2.simulate('mouseup')
     expect(wrapper.state().colToSwap).toEqual(null)
-    // expect(wrapper.props().updateCols).toHaveBeenCalled()
+    expect(wrapper.props().callSwapCol).toHaveBeenCalled()
   })
 })

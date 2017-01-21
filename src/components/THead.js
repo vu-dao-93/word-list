@@ -32,7 +32,7 @@ export class THead extends Component {
   _sortItems(key) {
     return () => {
       this.setState({sortKey: key})
-      this.props.dispatch(sortRows(key))
+      this.props.callSortRows(key)
     }
   }
 
@@ -45,12 +45,11 @@ export class THead extends Component {
         top: e.target.offsetTop
       }
     })
-    console.log(this.state);
   }
 
   _swapCol(e) {
     e.preventDefault()
-    this.props.dispatch(swapCol(this.state.colToSwap.text, e.target.innerHTML))
+    this.props.callSwapCol(this.state.colToSwap.text, e.target.innerHTML)
     this.setState({colToSwap: null})
   }
 
@@ -60,4 +59,19 @@ const mapStateToProps = store => ({
   columns: store.colReducer,
 })
 
-export default connect(mapStateToProps)(THead)
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  callSwapCol: (target, dest) => {
+    dispatch(swapCol(target, dest))
+  },
+  callSortRows: (key) => {
+    dispatch(sortRows(key))
+  }
+})
+
+THead.propTypes = {
+  columns: React.PropTypes.array,
+  callSortRows: React.PropTypes.func,
+  callSwapCol: React.PropTypes.func
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(THead)

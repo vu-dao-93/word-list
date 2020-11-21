@@ -7,7 +7,7 @@ const MongoClient = require('mongodb').MongoClient;
 const getWordList = require('./server/getWordList');
 const addWordMany = require('./server/addWordMany');
 const deleteWordMany = require('./server/deleteWordMany');
-const URL = 'mongodb://admin:admin@ds015636.mlab.com:15636/word-list'
+const URL = 'mongodb+srv://admin:admin@word-list.zubgu.mongodb.net/word-list?retryWrites=true&w=majority'
 
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({
@@ -21,7 +21,8 @@ router.use((req, res, next) => {
   (req.method === 'OPTIONS')? res.sendStatus(200): next()
 })
 
-MongoClient.connect(URL, (err, db) => {
+MongoClient.connect(URL, (err, client) => {
+  const db = client.db('word-list');
   console.log('Connected to mongodb server');
   const collection = db.collection('documents')
 
